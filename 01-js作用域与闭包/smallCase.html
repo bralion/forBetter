@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>小的案例</title>
+</head>
+<body>
+<script>
+	//案例1
+	function case1() {
+		function show() {
+			console.log('this:', this);
+		}
+
+		var obj = {
+			name: 'test',
+			show: show
+		};
+
+		obj.show();//打印出obj对象  点引用
+	};
+
+	//案例2
+	function case2() {
+		function show() {
+			console.log('this:', this);
+		}
+
+		var obj = {
+			show: function () {
+				show();
+			}
+		}
+		obj.show();//直接调用---》window
+	}
+
+	//案例3
+	function case3() {
+		var obj = {
+			show: function () {
+				console.log('this:', this);
+			}
+		};
+		(0, obj.show)();//逗号表达式返回最后一项，前面的继续执行 -----返回的是一个函数   函数执行----》window
+	}
+
+	//案例4
+	function case4() {
+		function obj() {
+			this.show = function () {
+				console.log('this:', this);
+			}
+		};
+		new obj().show();//new 返回一个对象 对象点调用  打印对象
+	}
+
+	//案例5
+	function case5() {
+		function test() {
+			console.log(this);
+			this.name = 'aaa'
+		}
+
+		new test();//new一个函数  函数内部是立即执行的  **返回的是这个函数实例**
+	}
+
+	//案例6
+	function case6() {
+		var obj1 = {
+			name: '新的this'
+		}
+		var obj = {
+			name: '测试',
+			show: function () {
+				this.name = '内部名称'
+				console.log('this:', this);
+			}
+		}
+		var newObj = new (obj.show.bind(obj1))() //new的优先级更高，会覆盖掉bind的this------> 打印name为测试的对象
+	}
+
+	//案例7
+	function case7() {
+		var obj = {
+			name: '我是obj',
+			show: function () {
+				console.log('this:', this);
+			}
+		};
+		var elem = document.createElement('button');
+		elem.innerText = '点击我'
+		document.body.append(elem);
+
+		// elem.onclick=obj.show;//this指向点击事件绑定的元素
+		// elem.onclick=obj.show.bind(obj);//this指向obj
+		elem.onclick = function () {
+			obj.show();
+		};//this指向obj
+	}
+
+	//案例8
+	function case8() {
+		var person = 1;
+
+		function showPerson() {
+			var person = 2;
+			console.log(person);
+		}
+
+		showPerson();//打印出2  先找内部的
+	}
+
+	//案例9
+	function case9() {
+		var person = 1;
+
+		function showPerson() {
+			console.log(person);
+			var person = 2;
+		}
+
+		showPerson()//打印出undefine  声明提前
+	}
+
+	//案例10
+	function case10() {  //待解决
+		var person = 1;
+
+		function showPerson() {
+			console.log(person);
+			var person = 2;
+
+			function person() {
+				console.log(1111)
+			}
+		}
+
+		showPerson()//打印出undefine  函数声明优先提前 函数表达式不会提前 被后面的定义覆盖
+	}
+
+	//案例11
+	function case11() {
+		function Person() {
+			this.name = 1;
+		}
+
+		Person.prototype = {
+			show: function () {
+				console.log('name:' + this.name);
+			}
+		}
+		var person = new Person();
+		person.show();//打印实例身上的name   1
+
+	}
+
+	//案例12
+	function case12() {
+		function Person() {
+			this.name = 1;
+		}
+
+		Person.prototype = {
+			name: '2',
+			show: function () {
+				console.log('name:' + this.name);
+			}
+		}
+		var person = new Person();
+		Person.prototype.show = function () {
+			console.log('new show');
+		}
+		person.show();//原型上的show被替换了  打印出new show
+	}
+
+	//案例13
+	function case13() {
+		function Person() {
+			this.name = 1;
+		}
+
+		Person.prototype = {
+			show: function () {
+				console.log('name:' + this.name);
+			}
+		}
+		var person = new Person();
+		var person2 = new Person();
+		person.show=function(){
+			console.log('new show');
+        };
+        person.show();//打印出 newshow
+        person2.show(); //打印出  name 1
+
+	}
+
+	//案例14
+    function case14(){
+		function Person() {
+			this.name = 1;
+		}
+
+		Person.prototype = {
+			name: '2',
+			show: function () {
+				console.log('name:' + this.name);
+			}
+		};
+		Person.prototype.show(); //打印出原型上的name 2
+        (new Person()).show(); //打印出实例身上的name 1
+    }
+
+	/* this指向问题*/
+	// case1()
+	// case2()
+	//  case3()
+	//case4()
+	// case5()//易做错的题
+	// case6()//易做错的题
+	// case7()
+
+	/* 作用域*/
+	// case8()
+	// case9()
+	// case10() //易做错的题
+	// case11()
+	// case12()
+	// case13()
+
+	/* 综合案例*/
+    case14()
+
+
+
+</script>
+</body>
+</html>
