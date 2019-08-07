@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>对象原理理解</title>
+</head>
+<body>
+<script>
+    // // 创建对象的几种方式
+    // //字面量形式
+    // var a={};
+    // //工厂函数模式
+    // function getPerson(name){
+    // 	var person={};
+    // 	if(name){person.name=name}
+    // 	return person
+    // }
+    // var b=getPerson('yyy');
+    // //构造函数模式
+    // function Person(name){
+    // 	this.name=name;
+    // }
+    // var c= new Person('构造形式')
+    //
+    // //class形式创建------》其实也是构造函数创建  语法糖
+    // class Person1 {
+	 //    constructor(name){
+    //     	this.name=name;
+    //     }
+    // }
+    // var d=new Person1('class创建')
+    //
+    // console.dir(a)
+    // console.dir(b)
+    // console.dir(c)
+    // console.dir(d)
+    
+    //new创建对象   如果构造函数有返回值  并且返回值是对象  那么new执行后返回的是对象      如果返回的是一个值则返回的是new出来的实例
+    function Person () {
+        var name={title:1};
+        this.show='455'
+        return name
+    }
+    var e=new Person();
+    console.log(e);//{title:1}
+    function Person1 () {
+        var name=1;
+        this.show='455'
+        return name
+    }
+    var f=new Person1();
+    console.log(f);//{show:'455'}
+    
+    
+    //        通过构造函数生成的对象，在构造函数（普通函数也一样）创建的时候会在构造函数内部生成一个prototype（老公）属性指向一个对象，对象内部有一个constructor（老婆）指向构造函数    形成循环引用。也会创建一个__proto__（父亲）属性指向function对象，该对象挂载有函数相关的方法，比如bind，apply等。构造函数其实也是一个对象
+    //        在通过new实例化的时候  创建一个新对象   将构造函数的作用域指向该对象（即this指向创建好的实例）  执行构造函数中的代码   将实例的__proto__属性指向构造函数的prototype。
+
+   //         原型链每个对象都有，对象可以继承构造函数的prototype上的属性和方法，对象可以通过__proto__访问构造函数的prototype。
+   
+</script>
+</body>
+</html>

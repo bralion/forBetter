@@ -125,17 +125,17 @@
 	//案例10
 	function case10() {  //待解决
 		var person = 1;
-
 		function showPerson() {
-			console.log(person);
+			console.log(person);//function(){console,log(1111)}
 			var person = 2;
-
+			console.log(person);//2
 			function person() {
 				console.log(1111)
 			}
 		}
 
-		showPerson()//打印出undefine  函数声明优先提前 函数表达式不会提前 被后面的定义覆盖
+		showPerson()//打印出undefine  函数声明优先提前 函数表达式不会提前 被后面的定义覆盖,重复声明会被忽略，赋值留在原地
+        //所以第一个打印的时候会出现function person()   第二个打印的时候会变成2
 	}
 
 	//案例11
@@ -228,7 +228,7 @@
 	// case13()
 
 	/* 综合案例*/
-    case14()
+    // case14()
 
 
 
