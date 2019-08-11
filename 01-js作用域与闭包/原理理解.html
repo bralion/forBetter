@@ -9,70 +9,58 @@
     /**********************函数创建********************/
     // 三种创建方式，创建出来的函数基本一致
     // //具名函数======function定义
-    // function test(params1,params2){
-    // 	this.name='理解作用域和闭包';
-    // 	var getName=function(){
-    // 		console.log(this.name);
-    //     }
-    // }
-    // console.dir(test);
-    // //字面量定义
-    // var test=function(params1,params2){
-    // 	this.name='理解作用域和闭包';
-    // 	var getName=function(){
-    // 		console.log(this.name);
-    //     }
-    // }
-    // console.dir(test);
-    //匿名函数
-    //
-    // console.dir(
-	 //    function(params1,params2){
-		//     this.name='理解作用域和闭包';
-		//     var getName=function(){
-		// 	    console.log(this.name);
-		//     }
-	 //    }
-    // );
-    // function test(params1,params2){
-	 //    this.name='理解作用域和闭包';
-	 //    var name2='我是函数内部变量name2的值';
-	 //    var name3='我是函数内部变量name3的值';
-	 //    var getName=function(){
-	 //    	console.dir(arguments,'arguments');
-	 //    	console.log(getName.caller,'caller');
-		//     console.log(name2);
-	 //    }
-	 //    return getName
-    // }
-    // var getName=test();
-    // getName();
-    /**********************函数调用********************/
-    //
-    // function outer (){
-	 //    var testCaller={
-		//     name:'我是包含函数的对象',
-		//     test:function(){
-    //         },
-	 //    };
-	 //    return testCaller;
-    // }
-    // var test1=outer()
-    // test1.test()
-    // console.dir(outer)
-        var B=function(){ this.name='b'}
-        B.prototype.name1=1321;
-        var A=new B()
-    var C = function() {this.foo = 'bar'; this.baz = 'bim';};
-    C.prototype = A;
-    iterate(new C());
-    function iterate(obj) {
-	    var str='['
-	    for (key in obj){
-		    str=str+'"'+key+'"'+': "'+obj[key]+'", '
-	    }
-	    return str+']'
+    function test(params1,params2){
+    	this.name='理解作用域和闭包';
+    	var getName=function(){
+    		console.log(this.name);
+        }
     }
+    console.dir(test);
+    // //字面量定义
+    var test=function(params1,params2){
+    	this.name='理解作用域和闭包';
+    	var getName=function(){
+    		console.log(this.name);
+        }
+    }
+    console.dir(test);
+    //匿名函数
+
+    console.dir(
+	    function(params1,params2){
+		    this.name='理解作用域和闭包';
+		    var getName=function(){
+			    console.log(this.name);
+		    }
+	    }
+    );
+    function test(params1,params2){
+	    this.name='理解作用域和闭包';
+	    var name2='我是函数内部变量name2的值';
+	    var name3='我是函数内部变量name3的值';
+	    var getName=function(){
+	    	console.dir(arguments,'arguments');
+	    	console.log(getName.caller,'caller');
+		    console.log(name2);
+	    }
+	    return getName
+    }
+    var getName=test();
+    getName();
+    /**********************函数调用********************/
+
+    function outer (){
+	    var testCaller={
+		    name:'我是包含函数的对象',
+		    test:function(){
+            },
+	    };
+	    return testCaller;
+    }
+    var test1=outer()
+    test1.test()
+    console.dir(outer)
+
   
    
 </script>

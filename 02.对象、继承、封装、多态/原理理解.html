@@ -57,14 +57,149 @@
     
     
     //继承 常见的继承方式
-        //方法1，原型链继承
-        function Body(){
-        	this.volumes={
-        		_bloodVolume:1000,
-                _attackVolume:5000,
-                _defenseVolume:200
-            }
+
+    // 一般在编程中常见的是直接使用字面量定义，但是对于复杂的对象或者需要多次创建的对象则不能满足======》对象的继承和封装能解决这个问题
+
+
+            // 需求：生成魔王  魔王能够复制，魔王拥有  血量  攻击值等属性   魔王拥有被攻击和say方法 monster有不同的类别主要体现在颜色上。
+
+
+
+    //  1.通过字面量的形式生成对象来满足需求
+        var temp=function(blood){//工厂函数的私有方法
+            return blood.toString()+'处理后的';
+	    }
+        var monster1={
+        	color:"red",
+			blood:100,
+	        attack:50,
+	        say:function(){
+		        console.log('我的血量'+temp(this.blood))
+	        }
         }
+        var monster12={
+        	color:'green',
+			blood:150,
+	        attack:50,
+	        say:function(){
+		        console.log('我的血量'+temp(this.blood))
+	        }
+        }
+        var monster123={
+        	color:'green',
+			blood:150,
+	        attack:50,
+	        say:function(){
+		        console.log('我的血量'+temp(this.blood))
+	        }
+        }
+        // 缺点====这种方法满足了差异性但是每次生成有大量冗余的代码，重复生成多个  工作量大  并且如果我们想改变其中一个属性所有的字面量对象都要改,这是最不可取的一种方法。
+                    // 并且私有属性和方法暴露在外面，存在被修改的风险
+
+
+        // 优化一下====》采用工厂函数模式  减少代码冗余  让私有方法和属性在外面访问不到
+
+
+    //  2.通过工厂函数生成对象
+
+        function Monster(color='green',blood=100,attack=50){//添加默认值
+        	var temp=function(blood){//工厂函数的私有方法
+        		return blood.toString()+'处理后的';
+			}
+        	var res={};
+        	res.blood=blood;
+        	res.color=color;
+        	res.attack=attack;
+        	res.say=function(){
+        		console.log('我的血量'+temp(this.blood))
+            }
+            res.attacked=function(){
+        		this.blood-=10;
+        		console.log('我被攻击了')
+            }
+            return res;
+        }
+	    Monster.prototype.name=1111;
+        console.log(Monster.prototype.name)
+        var monster1=Monster('green',100,50);
+        var monster2=Monster('red',200,50);
+        var monster3=Monster('red',200,50);
+	    console.log(monster1.name)//打印不出name  //undefined
+
+	    monster1.say();
+        monster2.say();
+        monster3.say();
+
+        //缺点  虽然基本解决了代码的冗余性，修改也稍微方便了一点 但是也存在几个问题
+                // 1.随着对象属性的增加，传入的值会越来越多，并且之前的调用生成对象的函数也要跟着修改。
+                // 2.这种方法会生成多个say方法和attacked方法存放在内存中，这样浪费资源。
+                //3.Monster是一个构造函数他有prototype  但是返回的对象是不能访问原型上的方法
+                //4.要统一修改红色的属性要在new的函数传参处修改   new  多少次修改多少次 比较麻烦
+
+    //  3.通过构造函数生成
+        function Monster(color='green',blood=100,attack=50) {
+		var temp=function(blood){//工厂函数的私有方法
+			return blood.toString()+'处理后的';
+		}
+		this.blood=blood;
+		this.color=color;
+		this.attack=attack;
+		this.say=function(){
+			console.log('我的血量'+temp(this.blood))
+		}
+		this.attacked=function(){
+			this.blood-=10;
+			console.log('我被攻击了')
+		}
+
+	}
+	Monster.prototype.name=1111;
+	let monster1=new Monster('green',blood=10,attack=30)
+	let monster2=new Monster('green',blood=101,attack=30)
+	let monster3=new Monster('green',blood=105,attack=30)
+	console.log(monster1.name); //111
+	monster1.say();
+	monster2.say();
+    monster3.say();
+        //new 构造函数  new 其实和工厂函数差不多  没有解决掉上面的问题   但是new将生成对象与原型对象做了一个关联
+
+    //4.构造函数加上原型的模式生成对象
+	function Monster(color='green',blood=100,attack=50) {
+		this.blood=blood;
+		this.color=color;
+		this.attack=attack;
+	}
+	Monster.prototype.name=1111;
+	Monster.prototype.say=function(){
+		var temp=function(blood){//工厂函数的私有方法===》假装处理一下
+			return blood.toString()+'处理后的';
+		}
+		console.log('我的血量'+temp(this.blood))
+	}
+	Monster.prototype.attacked=function(){
+		this.blood-=10;
+		console.log('我被攻击了')
+	}
+	let monster1=new Monster('green',blood=10,attack=30)
+	let monster2=new Monster('green',blood=101,attack=30)
+	let monster3=new Monster('green',blood=105,attack=30)
+	console.log(monster1.name); //111
+	monster1.say();
+	monster2.say();
+	monster3.say();
+
+	// 解决了 1.重复定义方法带来的资源浪费问题       2.可以访问原型链上的方法和属性
+	// 缺点  1.随着属性的增加传入的值越来越多  2.修改红色monster的属性时还是会在调用时不断修改
+
+    //class  只是构造函数的语法糖
+
+// 4.  extend 继承模式  ===static =====super
+
+
+
+
+
+
      
         
     
