@@ -48,18 +48,31 @@
     // var getName=test();
     // getName();
     /**********************函数调用********************/
-
-    function outer (){
-	    var testCaller={
-		    name:'我是包含函数的对象',
-		    test:function(){
-            },
-	    };
-	    return testCaller;
+    //
+    // function outer (){
+	 //    var testCaller={
+		//     name:'我是包含函数的对象',
+		//     test:function(){
+    //         },
+	 //    };
+	 //    return testCaller;
+    // }
+    // var test1=outer()
+    // test1.test()
+    // console.dir(outer)
+        var B=function(){ this.name='b'}
+        B.prototype.name1=1321;
+        var A=new B()
+    var C = function() {this.foo = 'bar'; this.baz = 'bim';};
+    C.prototype = A;
+    iterate(new C());
+    function iterate(obj) {
+	    var str='['
+	    for (key in obj){
+		    str=str+'"'+key+'"'+': "'+obj[key]+'", '
+	    }
+	    return str+']'
     }
-    var test1=outer()
-    test1.test()
-    console.dir(outer)
   
    
 </script>
