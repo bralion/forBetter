@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>模块化原理理解</title>
+</head>
+<body>
+<script>
+	// 模块化的进化过程
+	    // 1.全局函数时代
+        // 每个功能之间为了避免全局变量污染，采用函数自调用的形式开发不同的功能,早期的jquery  则是运行一个一个函数 返回一个$函数挂到window上。 开发页面也是一个自调用匿名函数，里面一个主函数，在里面
+        //引用其他函数。  主要是为了减少全局污染，功能能够复用。
+        /*<script>
+            (function(){
+                main();
+                function main(){
+                	func1();
+                	func2();
+                	func3();
+                }
+                function func1(){
+                
+                }
+                function func2(){
+                
+                }
+                function func3(){
+                
+                }
+            })(window)*/
+        //2.模块化时代
+        //模块化的好处 1.避免全局污染  2.更好的分离，按需加载   3.更高的复用性  4.高可维护性，只需要改一处
+        //     模块化的规范
+                //commonjs   node应用模块就是采用的commonjs模块
+                    //1.每个文件就是一个模块，有自己的作用域。在一个文件里面定义的变量、函数、类都是私有的，对其它文件不可见。2.在服务器端模块的加载是运行时同步加载的；
+    
+    function outer () {
+	    var person = 'xiaowa';
+	    let inner=function(){
+    		console.log(person)
+        }
+	    return inner
+    }
+    function test(){
+    	var person = 'test';
+    	var inner = outer();
+    	inner()
+    }
+    test();
+</script>
+
+
+</body>
+</html>
