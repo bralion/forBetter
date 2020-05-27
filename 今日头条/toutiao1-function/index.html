@@ -18,7 +18,7 @@
     }
     
     .item.single-pic {
-        /*display: flex;*/
+        display: flex;
     }
     
     .single-pic .content {
@@ -48,8 +48,10 @@
 	(function () {
 		function listen(){
 			window.onscroll = function (e) {
+				console.log(111)
 				var distance = document.documentElement.offsetHeight - window.screen.height - window.scrollY;
 				if (distance < 100) {
+					console.log(1111)
 					main ();
 				}
 			};
@@ -72,9 +74,9 @@
 				singlePic: function (info) {
 					return `<div class="item single-pic">
                                 <div class="content">
-                                    <h3 on:click="clicking">
+                                    <sapn on:click="clicking">
                                         ${info.data.title}
-                                    </h3>
+                                    </sapn>
                                 </div>
                                 <img src="${info.data.imageList[0]}" />
                             </div>`
@@ -107,8 +109,6 @@
 			listen ();
 		}
 		main ();
-	
-	
 	}) ()
 </script>
 </body>
