@@ -18,7 +18,7 @@
     }
     
     .item.single-pic {
-        display: flex;
+        /*display: flex;*/
     }
     
     .single-pic .content {
@@ -46,51 +46,69 @@
 
 <script>
 	(function () {
+		function listen(){
+			window.onscroll = function (e) {
+				var distance = document.documentElement.offsetHeight - window.screen.height - window.scrollY;
+				if (distance < 100) {
+					main ();
+				}
+			};
+		}
+		
+		//获取数据
+		function getData () {
+			return fetch ('http://localhost:8099/list').then (res => {
+				return res.json ();
+			}).then (res => {
+				return res.data
+			});
+		}
+		
+		//渲染数据
+		function renderData (data = []) {
+			var container = document.getElementById ('container')
+			var flagFrame = container.innerHTML;
+			let renderMap = {
+				singlePic: function (info) {
+					return `<div class="item single-pic">
+                                <div class="content">
+                                    <h3 on:click="clicking">
+                                        ${info.data.title}
+                                    </h3>
+                                </div>
+                                <img src="${info.data.imageList[0]}" />
+                            </div>`
+				},
+				multiplePic: function (info) {
+					var imageList = info.data.imageList.map(image => {
+						return `<img src=${image} />`;
+					}).join('');
+					
+					return `<div class="item multiple-image" on:click="aa">
+                                <h3>
+                                    ${info.data.title}
+                                </h3>
+                                <div class="image-list">
+                                    ${imageList}
+                                </div>
+                            </div>`;
+				}
+			}
+			data.map (item => {
+				console.log(item)
+				flagFrame += renderMap[item.type] (item)
+			})
+			container.innerHTML = flagFrame;
+		}
 		function main () {
 			getData ().then (data => {
 				renderData (data)
-			})
-			
-			//获取数据
-			function getData () {
-				return fetch ('http://localhost:8099/list').then (res => {
-					return res.json ();
-				}).then (res => {
-					return res.data
-				});
-			}
-			
-			//渲染数据
-			function renderData (data = []) {
-				var container = document.getElementById ('container')
-				var flagFrame = container.innerHTML;
-				let renderMap = {
-					singlePic: function (info) {
-						return `<div>
-                                    <div>${info.data.title}</div>
-                                    <div class="single-pic">
-                                      <img src="${info.data.imageList[0]}" alt="">
-                                    </div>
-                                </div>`
-					},
-					multiplePic: function (info) {
-						let images='';
-						info.data.imageList.forEach(item=>{
-							images +=`<img src="${item}" alt="">`
-							
-						})
-						return `<div><div>${info.data.title}</div><div>`
-                                  +images
-                                +`</div></div>`
-					}
-				}
-				data.map (item => {
-					flagFrame += renderMap[item.type] (item)
-				})
-				container.innerHTML = flagFrame;
-			}
+			});
+			listen ();
 		}
 		main ();
+	
+	
 	}) ()
 </script>
 </body>
