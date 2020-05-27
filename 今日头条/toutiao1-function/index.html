@@ -4,12 +4,94 @@
     <meta charset="UTF-8">
     <title>今日头条</title>
 </head>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    
+    .item {
+        min-height: 42px;
+        padding: 16px 0;
+        margin: 0 15px;
+        border-bottom: 1px solid rgba(221, 221, 221, 0.6);
+    }
+    
+    .item.single-pic {
+        display: flex;
+    }
+    
+    .single-pic .content {
+        flex: 2;
+        font-size: 17px;
+        padding-right: 24px;
+    }
+    
+    .single-pic img {
+        width: 33%;
+        display: block;
+    }
+    
+    .item.multiple-image h3 {
+        font-size: 17px;
+    }
+    
+    .item.multiple-image .image-list img {
+        width: 33%;
+    }
+</style>
 <body>
-
+<div id='container'></div>
 
 
 <script>
-
+	(function () {
+		function main () {
+			getData ().then (data => {
+				renderData (data)
+			})
+			
+			//获取数据
+			function getData () {
+				return fetch ('http://localhost:8099/list').then (res => {
+					return res.json ();
+				}).then (res => {
+					return res.data
+				});
+			}
+			
+			//渲染数据
+			function renderData (data = []) {
+				var container = document.getElementById ('container')
+				var flagFrame = container.innerHTML;
+				let renderMap = {
+					singlePic: function (info) {
+						return `<div>
+                                    <div>${info.data.title}</div>
+                                    <div class="single-pic">
+                                      <img src="${info.data.imageList[0]}" alt="">
+                                    </div>
+                                </div>`
+					},
+					multiplePic: function (info) {
+						let images='';
+						info.data.imageList.forEach(item=>{
+							images +=`<img src="${item}" alt="">`
+							
+						})
+						return `<div><div>${info.data.title}</div><div>`
+                                  +images
+                                +`</div></div>`
+					}
+				}
+				data.map (item => {
+					flagFrame += renderMap[item.type] (item)
+				})
+				container.innerHTML = flagFrame;
+			}
+		}
+		main ();
+	}) ()
 </script>
 </body>
 </html>
