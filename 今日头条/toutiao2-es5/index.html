@@ -8,12 +8,11 @@
     </head>
     <body>
         <div id="container"></div>
-        <script src="./src/require.js"></script>
-        <!--<script src="./src/module.js"></script>-->
+        <script src="./js/require.js"></script>
         <script>
-	        require(['src/index'], function (main) {
-		        main.init();
-	        });
+            require(['js/src/index'],function(main){
+            	main.init();
+            })
         </script>
     </body>
 </html>

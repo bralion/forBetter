@@ -47,33 +47,30 @@
 
 <script>
 	(function () {
-		function listen(){
-			window.onscroll = function (e) {
-				console.log(111)
-				var distance = document.documentElement.offsetHeight - window.screen.height - window.scrollY;
-				if (distance < 100) {
-					console.log(1111)
-					main ();
-				}
-			};
-		}
-		
-		//获取数据
-		function getData () {
-			return fetch ('http://localhost:8099/list').then (res => {
-				return res.json ();
-			}).then (res => {
-				return res.data
-			});
-		}
-		
-		//渲染数据
-		function renderData (data = []) {
-			var container = document.getElementById ('container')
-			var flagFrame = container.innerHTML;
-			let renderMap = {
-				singlePic: function (info) {
-					return `<div class="item single-pic">
+		let manager={
+			listen:function(){
+				window.onscroll = function (e) {
+					console.log(111)
+					var distance = document.documentElement.offsetHeight - window.screen.height - window.scrollY;
+					if (distance < 100) {
+						console.log(1111)
+						main ();
+					}
+				};
+			},
+			getData:function () {
+				return fetch ('http://localhost:8099/list').then (res => {
+					return res.json ();
+				}).then (res => {
+					return res.data
+				});
+			},
+			renderData:function (data = []) {
+				var container = document.getElementById ('container')
+				var flagFrame = container.innerHTML;
+				let renderMap = {
+					singlePic: function (info) {
+						return `<div class="item single-pic">
                                 <div class="content">
                                     <sapn on:click="clicking">
                                         ${info.data.title}
@@ -81,13 +78,13 @@
                                 </div>
                                 <img src="${info.data.imageList[0]}" />
                             </div>`
-				},
-				multiplePic: function (info) {
-					var imageList = info.data.imageList.map(image => {
-						return `<img src=${image} />`;
-					}).join('');
-					
-					return `<div class="item multiple-image" on:click="aa">
+					},
+					multiplePic: function (info) {
+						var imageList = info.data.imageList.map(image => {
+							return `<img src=${image} />`;
+						}).join('');
+						
+						return `<div class="item multiple-image" on:click="aa">
                                 <h3>
                                     ${info.data.title}
                                 </h3>
@@ -95,21 +92,23 @@
                                     ${imageList}
                                 </div>
                             </div>`;
+					}
 				}
+				data.map (item => {
+					console.log(item)
+					flagFrame += renderMap[item.type] (item)
+				})
+				container.innerHTML = flagFrame;
+			},
+			init : function () {
+				this.getData ().then (data => {
+					this.renderData (data)
+				});
+				this.listen ();
 			}
-			data.map (item => {
-				console.log(item)
-				flagFrame += renderMap[item.type] (item)
-			})
-			container.innerHTML = flagFrame;
-		}
-		function main () {
-			getData ().then (data => {
-				renderData (data)
-			});
-			listen ();
-		}
-		main ();
+        };
+		//渲染数据
+		manager.init()
 	}) ()
 </script>
 </body>
