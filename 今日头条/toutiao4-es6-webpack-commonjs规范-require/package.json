@@ -1,0 +1,17 @@
+{
+  "name": "toutiao3-es6",
+  "version": "1.0.0",
+  "description": "toutiao",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"webpack"
+  },
+  "author": "yangchaolin",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.10.2",
+    "@babel/preset-env": "^7.10.2",
+    "babel-loader": "^8.1.0"
+  }
+}
