@@ -3,7 +3,8 @@
 * @author Yangchaolin
 * @date 2020/6/3
 */
-import Component from './items/Component.js'
+import  Component from './items'
+console.log(Component,'Component')
 import {request} from './utils.js'
 const manager = {
 	name:'manager',
@@ -23,14 +24,16 @@ const manager = {
 	renderData:function (data = []) {
 		// var container = document.getElementById ('container')
 		// var flagFrame = container.innerHTML;
-		// data.map (item => {
-		// 	console.log(item)
-		// 	flagFrame += components[item.type] (item)
-		// })
-		// container.innerHTML = flagFrame;
-		var component = new Component();
-		console.log(component,'component');
-		document.getElementById('container').appendChild(component.constructElement());
+		data.map (item => {
+			console.log(item);
+			let componentType = item.type.replace(/^\w/g,w => w.toUpperCase());
+			console.log(componentType)
+			var component = new Component[componentType](item.data);
+			console.log(component,'component');
+			document.getElementById('container').appendChild(component.constructElement());
+			// flagFrame += components[item.type] (item)
+		})
+		
 		
 	},
 	init : function () {
