@@ -68,23 +68,23 @@ module.exports = {
         disableHostCheck: true,
         before: function (app, server) {
             app.get('/list', function (req, res) {
-                const fileName = `./mock/list_${req.query.tab}.json`;
-                const backupFileName = `./mock/list.json`;
-                fs.exists(fileName, function (exists) {
-                    fs.readFile(exists ? fileName : backupFileName, function (err, content) {
-                        res.send(content);
-                    });
-                });
-            });
-
-            app.get('/price', function (req, res) {
-                res.send(JSON.stringify({
-                    infos: [
-                        {price: 23 * Math.random()},
-                        {price: 23 * Math.random()}
-                    ]
-                }));
-            });
+		        const fileName = `./mock/list_${req.query.tab}.json`;
+		        const backupFileName = `./mock/list.json`;
+		        fs.exists(fileName, function (exists) {
+			        fs.readFile(exists ? fileName : backupFileName, function (err, content) {
+				        res.send(content);
+			        });
+		        });
+	        });
+	
+	        app.get('/price', function (req, res) {
+		        res.send(JSON.stringify({
+			        infos: [
+				        {price: 23 * Math.random()},
+				        {price: 23 * Math.random()}
+			        ]
+		        }));
+	        });
         }
     }
 };
