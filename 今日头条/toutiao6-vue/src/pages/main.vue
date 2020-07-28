@@ -1,21 +1,21 @@
 <template>
     <div>
-        <div v-if="dataList.length!=0" v-for="item in dataList">
-            <multiple-pic :title="item.data.title" :imageList="item.data.imageList" v-if="item.type === 'multiplePic'"></multiple-pic>
-            <single-pic :title="item.data.title" :imageList="item.data.imageList"  v-else></single-pic>
+        <agriculture></agriculture>
+        <div v-for="item in dataList">
+            <multiple-pic v-bind="item.data" v-if="item.type === 'multiplePic'"></multiple-pic>
+            <single-pic v-bind="item.data"  v-else></single-pic>
         </div>
     </div>
 </template>
 
 <script>
 	import {request} from '../utils'
-    import SinglePic from '../components/single-pic.vue'
-    import MultiplePic from '../components/multiple-pic.vue'
+    import {SinglePic,MultiplePic,Agriculture} from '../components'
 	export default {
 		name: "Main",
 		components: {},
         components:{
-	        SinglePic,MultiplePic
+	        SinglePic,MultiplePic,Agriculture
         },
 		mounted () {
 			this.init();
