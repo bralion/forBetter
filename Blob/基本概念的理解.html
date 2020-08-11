@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>基本概念的理解</title>
+</head>
+<body>
+<style>
+    .striped_box
+    {
+        width: 100px;
+        height: 100px;
+        background-image: url("data:image/gif;base64,R0lGODlhAwADAIAAAP///8zMzCH5BAAAAAAALAAAAAADAAMAAAIEBHIJBQA7");
+        border: 1px solid gray;
+        padding: 10px;
+    }
+</style>
+<canvas id="canvas">   </canvas>
+
+<p>使用DataUrl展示图片</p>
+<div class="striped_box"></div>
+<form id="form1" action="">
+    <label for="name">用户名称：</label>
+    <input type="text" name="name">
+</form>
+
+
+<p>文件对象打印</p>
+<input type="file" id="files">
+<input type="button" id="fileList"  onclick="consoleInfo()" value="打印文件信息">
+<script>
+    console.log('构造函数在window上的定义')
+    console.log(window.Blob,'Blob');
+    console.log(window.File,'File');
+    console.log(window.FileReader,'FileReader');
+    console.log(window.ArrayBuffer,'ArrayBuffer');
+    console.log(window.FormData,'FormData');
+    console.log(window.XMLHttpRequest,'XMLHttpRequest');
+    console.log('以上都是构造函数');
+    var c=document.getElementById('canvas');
+    var canvas=c.getContext('2d');
+    console.log(canvas,'Canvas');
+
+    //打印文件对象
+    function consoleInfo(){
+        console.dir(document.getElementById('files').files[0],'文件对象');
+        let file =document.getElementById('files').files[0];
+        console.log(file.text().then(res=>{console.log(res,'file.text()')}));
+        var aFileReader=new FileReader()
+	    aFileReader.onload = function(event) {
+	        // 文件里的文本会在这里被打印出来
+		    console.log(event.target.result,'FileReader.readAsText')
+        };
+        aFileReader.readAsText(file);
+	    consoleFormData();
+    }
+    
+    function consoleFormData(){
+    	var form12=new FormData(document.getElementById('form1'));
+	    form12.append('age',12);
+	    console.log(form12,'formData12');
+	    // 输出一个迭代器
+	    console.log(form12.keys(),'formData12.keys()');
+	    // 输出所有的 key
+	    for (var key of form12.keys()) {
+		    console.log(key);
+	    }
+    }
+    
+    
+    
+    
+
+</script>
+</body>
+</html>
