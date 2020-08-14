@@ -9,7 +9,7 @@
 <input id="upload_file" type="file" name="upload_file" />
 <button id="btn_start">Start</button>
 <button id="btn_cancel">Cancel</button>
-<script type="text/javascript" src="/res/lib/jquery-1.11.3.js"></script>
+<script type="text/javascript" src="./jquery.js"></script>
 <script type="text/javascript">
 	var xhr = new XMLHttpRequest();
 	var progressBar = document.getElementById('upload_progress');
@@ -20,31 +20,30 @@
 		
 		// ---------------------------------------
 		// 原生xmlHttpRequest发送
-		xhr.open('post', '/server_url.php');
-		xhr.onload = function() {
-			alert('完成！');
-		};
-		xhr.onerror = function() {
-			alert('无法连接服务器！');
-		};
-		xhr.upload.onprogress = function(progress) {
-			if (progress.lengthComputable) {
-				console.log(progress.loaded / progress.total * 100);
-				progressBar.max = progress.total;
-				progressBar.value = progress.loaded;
-			}
-		};
-		xhr.upload.onloadstart = function() {
-			console.log('started...');
-		};
-		xhr.send(formData);
+		// xhr.open('post', 'http://127.0.0.1:1338/');
+		// xhr.onload = function() {
+		// 	alert('完成！');
+		// };
+		// xhr.onerror = function() {
+		// 	alert('无法连接服务器！');
+		// };
+		// xhr.upload.onprogress = function(progress) {
+		// 	if (progress.lengthComputable) {
+		// 		console.log(progress.loaded / progress.total * 100);
+		// 		progressBar.max = progress.total;
+		// 		progressBar.value = progress.loaded;
+		// 	}
+		// };
+		// xhr.upload.onloadstart = function() {
+		// 	console.log('started...');
+		// };
+		// xhr.send(formData);
 		
 		// ---------------------------------------
 		// 使用jQuery发送
-		/**
 		 $.ajax({
        type: "POST",
-    　　url: "/server_url.php",
+    　　url: "http://127.0.0.1:1338/",
     　　data: formData , //这里上传的数据使用了formData 对象
     　　processData: false,
     　　contentType: false, //必须false才会自动加上正确的Content-Type
@@ -69,7 +68,7 @@
         alert('完成！');
     }).fail(function(err) {
         alert('无法连接服务器！')
-    });*/
+    });
 		
 	});
 	
