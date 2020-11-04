@@ -7,20 +7,21 @@ function doOnce (callback){
 			return
 		}
 		isDone = true;
-		return callback&&callback()
+		return callback&&callback.apply({},arguments)
 	}
 }
-var fun1 = doOnce(function(){
-	console.log('aaaa');
-	return '11111'
-});
-console.log(fun1());
-console.log(fun1());
-console.log(fun1());
+let fun1 = function(argument1,argument2){
+	return argument1 + argument2
+}
+let onceFun1 = doOnce(fun1);
+console.log(onceFun1(1,2));
+console.log(onceFun1(1,2));
+console.log(onceFun1(1,2));
 
-var fun2 = doOnce(function(){
-	console.log('aaaa1');
-});
-fun2();
-fun2();
-fun2();
+
+// var fun2 = doOnce(function(){
+// 	console.log('aaaa1');
+// });
+// fun2();
+// fun2();
+// fun2();

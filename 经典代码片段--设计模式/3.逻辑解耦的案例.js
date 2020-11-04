@@ -18,7 +18,7 @@ function draw({dom,image}){
 	console.log('开始绘制');
 }
 
-//主函数
+//主函数 --- 将流程连起来
 function main(){
 	preHandle(draw);
 }
