@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id ="app"></div>
+<div id ="app1"></div>
+<div id ="app2"></div>
+<div id ="app3"></div>
+<script crossorigin src="./vue.js"></script>
+<script crossorigin src="./babel.min.js"></script>
+<script type = 'text/babel'>
+
+    //变量  点击事件
+	new Vue({
+        el:"#app",
+        template:`<div @click="click">{{name}}</div>`,
+		data:{name:"ycl"},
+        methods:{
+			click(){
+                [1,2,3].map(item=>{
+                	console.log(item);
+                })
+			}
+        }
+	})
+    //render渲染组件  渲染错误组件
+    new Vue({
+        el:'#app1',
+		render (h) {
+			throw new Error('oops')
+		},
+		renderError (h, err) {
+			return h('pre', { style: { color: 'red' }}, err.stack)
+		}
+    })
+
+    //v-for v-if v-else v-model v-bind v-on v-html v-text v-once 指令 事件修饰符 .once .stop .prevent .capture .self
+	new Vue({
+		el:"#app2",
+		template:`
+            <div>
+
+                v-for:
+                <div v-for="item in dataList">{{item}}</div>
+
+                v-if
+                <div v-if="showFlag === true">showFlag为true</div>
+                <div v-else>{{showFlagw为false}}</div>
+
+                v-model
+                <div>
+                  <span>{{inputValue}}</span>
+                  <input type="text" v-model="inputValue">
+                </div>
+
+                v-bind:
+                <div>
+                    <div v-bind:name="12">用于子组件</div>
+                </div>
+
+                v-on
+                <div v-on:click="click">点我 看控制台</div>
+
+                v-html
+                <div v-html="'<b>v-html</b>'"></div>
+
+                 v-text
+                <div v-text="'<b>v-text</b>'"></div>
+
+                 v-once
+                <div v-once="'一旦渲染不会更改'"></div>
+
+               事件修饰符：
+
+
+            </div>
+        `,
+		data:{dataList:[1,2,3],showFlag:true,inputValue:'22'},
+		methods:{
+			click(){
+				console.log('点击了div');
+				[1,2,3].map(item=>{
+					console.log(item);
+				})
+			}
+		}
+	})
+
+
+	//生命周期
+	new Vue({
+		el:"#app3",
+		template:`
+        <div>
+            {{count}}
+            {{JSON.stringify({NAME:111})}}
+            <button @click="countAdd">点击更新</button>
+            <button @click="destroyComponent">点击卸载</button>
+        </div>`,
+		data:{count:0},
+		methods:{
+            countAdd(){
+                this.count++
+            },
+			destroyComponent:(e)=>{
+            	console.log('卸载组件')
+            	console.dir(e)
+                //todo tempalte属性中找不到this进行bind
+            	// this.$distroy();
+            }
+		},
+		beforeCreate(){
+			console.log('component 将创建');
+        },
+        beforeMount(){
+			console.log('component 将挂载');
+        },
+        mounted(){
+			console.log('component 已经挂载');
+        },
+        beforeUpdate(){
+			console.log('组件将更新');
+        },
+        updated(){
+			console.log('组件已经更新')
+        },
+        beforeDestroy(){
+            console.log('组将将卸载')
+        },
+        destroyed(){
+			console.log('组件已经卸载')
+        }
+	})
+</script>
+</body>
+</html>
