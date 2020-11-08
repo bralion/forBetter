@@ -12,6 +12,7 @@
 <div id ="app4"></div>
 <div id ="app5"></div>
 <div id ="app6"></div>
+<div id ="app7"></div>
 <script src="./vue.js"></script>
 <script src="./babel.min.js"></script>
 <script type="text/babel">
@@ -260,10 +261,47 @@
             <div>
               <my-component></my-component>
             </div>
-
         `,
 	})
 
+
+    //Vue.use 安装全局插件  参数为插件对象  一个带有install的对象 router就是通过这种方式开发和使用的
+    Vue.use({
+        install(Vue,options){
+            //这里可以调用全局的api进行包括注册组件  注册指令等一系列操作
+        }
+    })
+
+    //mixin 全局注册一个混入，影响注册之后所有创建的每个 Vue 实例。插件作者可以使用混入，向组件注入自定义的行为
+        //向组件混入一些方法 这样每一个组件都可以调用
+    Vue.mixin({
+        data(){
+            return {
+            	userName:'杨超林'
+            }
+        },
+		created: function () {
+		    console.log(this.userName,'每个组件进入前都获取下用户名称');
+		}
+    })
+	new Vue({
+		el:'#app6',
+		template:`<div>{{userName}}</div>`
+	})
+
+	// Vue.compile( template ) 将模板字符串编译成render函数
+	// Render 函数的优先级要比template的级别要高且只能用一个生效，但是要注意的是Mustache(双花括号)语法就不能再次使用
+	var res = Vue.compile('<div><span>我是render函数渲染的</span></div>')
+    new Vue({
+			el:'#app7',
+            data(){
+            },
+            render:res.render,
+            staticRenderFns: res.staticRenderFns,//记得加上这行才能成功渲染
+            template:`<div>我是模板字符渲染的</div>`
+
+		}
+    )
 
 </script>
 </body>
