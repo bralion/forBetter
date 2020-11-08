@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id ="app"></div>
+<div id ="app1"></div>
+<script src="./vue.js"></script>
+<script src="./babel.min.js"></script>
+<script type="text/babel">
+    /******  全局配置文件Vue.config   ***/
+
+    //Vue.config.silent
+    Vue.config.silent = false; //警告和日志信息将不会打印
+    Vue.config.devtools = true; //允许vue-tool检查代码
+    Vue.config.errorHandler = function(err,vue,info){
+    	console.log(err,vue);
+    	console.log(info);
+    }; //捕获未处理的错误
+	Vue.config.warnHandler = function (msg, vm, trace) {
+		// `trace` 是组件的继承关系追踪
+	}
+	Vue.config.ignoredElements = [ //使 Vue 忽略在 Vue 之外的自定义元素
+		'my-custom-web-component',
+		'another-web-component',
+		// 用一个 `RegExp` 忽略所有“ion-”开头的元素
+		// 仅在 2.5+ 支持
+		/^ion-/
+	]
+	Vue.config.keyCodes = {//设置按键的keycode别名
+		v: 86,
+		f1: 112,
+		// 不可以用驼峰 取而代之的是 kebab-case 且用双引号括起来
+		"media-play-pause": 179,
+        "ycl-enter":13,
+		up: [38, 87]
+	}
+
+
+	/******  全局API文件Vue  挂在构造函数上的方法  ***/
+
+	// Vue.extend 创建一个子类 继承Vue的方法，传入参数为组件选项 例如 xdt chartBase Component
+    var chartBase = Vue.extend({
+        data:function(){
+            return {option:'ycl1'}
+        },
+
+    })
+
+
+
+
+
+	new Vue({
+        el:"#app",
+        template:`
+            <div @click="click">
+                <div v-for="item in dataList">{{item}}</div>
+                <input type="text" @keyup.13="clickEnter">
+                设置kecode别名后等价于下面的input
+                <br/>
+                <input type="text" @keyup.ycl-enter="clickEnter">
+            </div>
+
+        `,
+		data:{dataList:[1,2,3]},
+        methods:{
+			click(){
+                console.log('点击了div')
+			},
+			clickEnter(e){
+				console.log('点击了enter')
+            }
+
+        }
+
+	})
+
+
+</script>
+</body>
+</html>

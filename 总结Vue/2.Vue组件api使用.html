@@ -7,30 +7,263 @@
 <body>
 <div id ="app"></div>
 <div id ="app1"></div>
-<script crossorigin src="./vue.js"></script>
-<script crossorigin src="./babel.min.js"></script>
-<script>
+<div id ="app2"></div>
+<div id ="app3"></div>
+<div id ="app4"></div>
+<div id ="app5"></div>
+<div id ="app6"></div>
+<script src="./vue.js"></script>
+<script src="./babel.min.js"></script>
+<script type="text/babel">
+    /******  全局配置文件Vue.config   ***/
+
+    //Vue.config.silent
+    Vue.config.silent = false; //设置为true警告和日志信息将不会打印
+    Vue.config.devtools = true; //允许vue-tool检查代码
+    Vue.config.errorHandler = function(err,vue,info){
+    	console.log(err,vue);
+    	console.log(info);
+    }; //捕获未处理的错误
+	Vue.config.warnHandler = function (msg, vm, trace) {
+		// `trace` 是组件的继承关系追踪
+	}
+	Vue.config.ignoredElements = [ //使 Vue 忽略在 Vue 之外的自定义元素
+		'my-custom-web-component',
+		'another-web-component',
+		// 用一个 `RegExp` 忽略所有“ion-”开头的元素
+		// 仅在 2.5+ 支持
+		/^ion-/
+	]
+	Vue.config.keyCodes = {//设置按键的keycode别名
+		v: 86,
+		f1: 112,
+		// 不可以用驼峰 取而代之的是 kebab-case 且用双引号括起来
+		"media-play-pause": 179,
+        "ycl-enter":13,
+		up: [38, 87]
+	}
 
 	new Vue({
-        el:"#app",
-        template:`<div @click="click">{{name}}</div>`,
-		data:{name:"ycl"},
-        methods:{
+		el:"#app",
+		template:`
+            <div @click="click">
+                <div v-for="item in dataList">{{item}}</div>
+                <input type="text" @keyup.13="clickEnter">
+                设置kecode别名后等价于下面的input
+                <br/>
+                <input type="text" @keyup.ycl-enter="clickEnter">
+            </div>
+
+        `,
+		data:{dataList:[1,2,3]},
+		methods:{
 			click(){
-                console.log('点击了div')
+				console.log('点击了div')
+			},
+			clickEnter(e){
+				console.log('点击了enter')
 			}
-        }
+
+		}
 
 	})
+
+
+	/******  全局API文件Vue  挂在构造函数上的方法 ---这里采用this.$API 代替Vue.api  ***/
+
+	// Vue.extend 创建一个子类 继承Vue的方法，传入参数为组件选项 例如 xdt chartBase Component
+        //基类包含图表基本的实例保存 主题设置 联动设置  初始化流程 （后台数据获取）
+        //todo 将xdt的架构用Vue实现一遍 也可以参考爪哇的component is
+
+	var chartBase = Vue.extend({
+			data:function(){
+				return {
+
+				}
+			},
+			mounted(){
+				this.getData();
+			},
+			methods:{
+				getData(){
+
+				}
+			}
+
+		})
+    const barComponent = {
+        config:{
+            title:'柱状图',
+            //设置项
+            background:'themeColor',
+            barColor:"themeColor"
+        },
+        instance:{}
+    }
+    const pieComponent = {
+        config:{
+            title:'饼状图',
+            //设置项
+            background:'themeColor',
+            barColor:"themeColor"
+        },
+        instance:{}
+    }
+
+    const widgetList = {
+    	    barWidget:barComponent,
+            pieWidget:pieComponent,
+        };
+
+
+	//Vue.nextTick 数据修改后dom还没更新 使用 nextTick 在回调函数中获取更新后的dom
+
     new Vue({
         el:'#app1',
-		render (h) {
-			throw new Error('oops')
-		},
-		renderError (h, err) {
-			return h('pre', { style: { color: 'red' }}, err.stack)
-		}
+        template:`
+            <div>
+                <span id="message">{{message}}</span>
+                <button @click="changeMessage">click me</button>
+            </div>
+
+        `,
+        data(){
+        	return{
+        		message:'hello'
+            }
+        },
+        methods:{
+			changeMessage(){//打印出dom上的message
+				this.message = "hello world !"
+        		console.log(document.getElementById('message').innerText);//hello
+                this.$nextTick(()=>{
+					console.log(document.getElementById('message').innerText);//hello world!
+                })
+            }
+        }
     })
+    //Vue.set 新增一个属性  添加到响应式数据当中
+    //Vue.delete 删除一个属性  删除后该属性依旧是响应式的该API只是为了确保清空属性视图刷新
+        //Vue 不允许在已经创建的实例上动态添加新的根级响应式属性
+
+	new Vue({
+		el:'#app2',
+		template:`
+            <div>
+                <span id="message">{{obj.message}}</span>
+                <span id="message1">{{obj.message1}}</span>
+                <button @click="clearMessage">clearMessage</button>
+                <button @click="changeMessage">click me</button>
+
+            </div>
+
+        `,
+		data(){
+			return{
+				obj:{message:'hello'}
+			}
+		},
+        mounted(){
+			// $set参数 obj key value
+			this.$set(this.obj,'message1','hello');
+        },
+		methods:{
+			changeMessage(){//打印出dom上的message
+				this.obj.message = "hello world !"
+				this.obj.message1 = "hello world !"
+
+			},
+			clearMessage(){//删除属性后依然可以响应式的修改视图   该api只是为了确保在某个属性清空时数据没更新的情况不发生
+				this.$delete(this.obj,'message');
+            }
+		}
+	})
+
+    //Vue.directive 注册或获取全局指令。
+	Vue.directive('my-directive', { //在添加指令的元素末尾加上绑定的字符
+		bind: function (el,binding,vnode,oldNode) {
+			console.log(el);
+			console.log(binding);//包含value
+			console.log(vnode);
+			console.log(oldNode);
+        },
+		inserted: function (el,binding,vnode,oldNode) {
+			el.innerHTML = el.innerHTML + binding.value;
+        },
+		update: function () {},
+		componentUpdated: function () {},
+		unbind: function () {}
+	});
+
+    //只能获取自定义指令
+    console.dir(Vue.directive('my-directive'));
+	new Vue({
+		el:'#app3',
+		template:`
+            <div>
+                <span id="message" v-my-directive = 'ycl'>{{message}}</span>
+            </div>
+
+        `,
+		data(){
+			return{
+				message:'hello',
+                ycl:'杨超林'
+			}
+		},
+		methods:{
+		}
+	})
+
+    //注册或获取全局过滤器。Vue.filter 对结果进行一些修饰 |管道符调用
+	Vue.filter('addYuan', function (value) {
+		return value+'元'
+		// 返回处理后的值
+	})
+	new Vue({
+		el:'#app4',
+		template:`
+            <div>
+                <span id="message">{{money|addYuan}}</span>
+            </div>
+
+        `,
+		data(){
+			return{
+				money:3000,
+			}
+		},
+		methods:{
+		}
+	})
+
+	// Vue.component 注册或获取全局组件。注册还会自动使用给定的 id 设置组件的名称
+
+	// 注册组件，传入一个扩展过的构造器
+	// Vue.component('my-component', Vue.extend({ /* ... */ }))
+
+	// 注册组件，传入一个选项对象 (自动调用 Vue.extend)
+	Vue.component('my-component', {
+		data(){
+			return{
+		        name:'ycl'
+            }
+        },
+        template:`<div>{{name}}</div>`
+	})
+
+	// 获取注册的组件 (始终返回构造器)
+	// var MyComponent = Vue.component('my-component')
+	new Vue({
+		el:'#app5',
+		template:`
+            <div>
+              <my-component></my-component>
+            </div>
+
+        `,
+	})
+
 
 </script>
 </body>
