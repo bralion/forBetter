@@ -105,11 +105,11 @@
             countAdd(){
                 this.count++
             },
-			destroyComponent:(e)=>{
+			destroyComponent(){
             	console.log('卸载组件')
-            	console.dir(e)
-                //todo tempalte属性中找不到this进行bind
-            	// this.$distroy();
+            	console.dir(this);
+                this.count++
+            	this.$destroy();
             }
 		},
 		beforeCreate(){

@@ -107,7 +107,8 @@
                 return value +'元'
             }
         },
-        //TODO 总结component和Vue实例的区别
+        //component和Vue实例的区别  component 是构造函数类 vue实例是对象   component会在其父组件中实例化，实例化后两者差别不大
+        // 所以在注册组件时和new Vue传的参数很相似
         components:{YclComponent},
 
         // parent:{},//Vue instance 本组件将被推送到父实例的$children中

@@ -3,34 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        .home{
+            display: flex;
+            flex-direction: row;
+        }
+    </style>
 </head>
 <body>
 <div id ="app"></div>
-<div id ="app1"></div>
 <script crossorigin src="./vue.js"></script>
 <script crossorigin src="./babel.min.js"></script>
 <script>
+    const NavComponent = Vue.component('NavComponent',{
+        template:`<div style="width:20%">
+          <div v-for="item in menus" @click="()=>delCurrentItem(item.label)">{{item.label}}</div>
+        </div>`,
+        props:{
+            menus:{
+                type:Array,
+                default:[],
+            },
+            delMenuItem:{
+                type:Function,
+                default:()=>{}
+            }
+        },
+        mounted(){
 
-	new Vue({
+        },
+        methods:{
+            delCurrentItem(params){
+                this.$emit('delMenuItem',params)
+            }
+        }
+    })
+    const MainComponent = Vue.component('MainComponent',{
+        template:`<div style="width:80%">主页</div>`
+    })
+
+
+    //组件之间传参数 子到父  父到子
+	let instance = new Vue({
         el:"#app",
-        template:`<div @click="click">{{name}}</div>`,
-		data:{name:"ycl"},
+        template:`
+          <div>
+            <span>home</span>
+            <div class="home">
+              <navComponent :menus="menus" @delMenuItem="delMenuItem"></navComponent>
+              <mainComponent></mainComponent>
+            </div>
+          </div>`,
+		data:{
+            name:"ycl",
+            menus:[{label:'一级菜单',path:'/menu1'},{label:'一级菜单1',path:'/menu2'},{label:'一级菜单2',path:'/menu3'},],
+        },
         methods:{
 			click(){
                 console.log('点击了div')
-			}
+			},
+            delMenuItem(del){
+			    console.log('触发了删除函数')
+			    let index = this.menus.findIndex(item=>item.label === del);
+			    console.log(index)
+			    if(index !== -1){
+			        this.menus.splice(index,1);
+                }
+            }
         }
-
 	})
-    new Vue({
-        el:'#app1',
-		render (h) {
-			throw new Error('oops')
-		},
-		renderError (h, err) {
-			return h('pre', { style: { color: 'red' }}, err.stack)
-		}
-    })
+    console.log(instance);
+    console.log(new NavComponent({props:{menus:[]}}));
+    console.log(NavComponent);
 
 </script>
 </body>
