@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function createArray(n){
+        let result = [];
+        for (let i=0;i<n;i++){
+            if(i<2){
+                result.push(1);
+            }else{
+                result.push(result[i-1]+result[i-2]);
+            }
+        }
+        return result
+    }
+    console.log(createArray(8))
+
+</script>
+</body>
+</html>

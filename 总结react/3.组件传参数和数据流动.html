@@ -5,8 +5,44 @@
     <title>组件传参和数据流动</title>
 </head>
 <body>
-<script>
-	// context 对应Vue中的 $root
+<div id = "app"></div>
+<script crossorigin src="./react.development.js"></script>
+<script crossorigin src="./react-dom.development.js"></script>
+<script crossorigin src="./babel.min.js"></script>
+<script type = 'text/babel'>
+    const {useState,useEffect,useMemo,useCallback,useRef} = React;
+	// context 对应Vue中的 $root  使用方式不太一样
+    //数据驱动视图 数据大致分为 来源于 1.后端的数据(datalist) 2.与视图相关的数据 3.与逻辑相关的数据(组件的内部常量)
+    function ParentComponent (){
+        const [firstname,setFirstname] = useState('chaolin')
+        const [lastname,setLastname] = useState('yang')
+        return(
+            <div>
+               <Name firstname={firstname} setFirstname={setFirstname} setLastname={setLastname} lastname={lastname} />
+            </div>
+        )
+    }
+    function Name (props){
+        let [isUpperCaseFirstWord,setConfig]= useState(false);
+        useEffect(()=>{
+                isUpperCaseFirstWord = isUpperCaseFirstWord;
+                if(isUpperCaseFirstWord){
+                    props.setLastname('Yang')
+                    props.setFirstname('Chaolin')
+                }
+        },[isUpperCaseFirstWord])
+        return (<div>
+            {'name:' + props.firstname + ' ' + props.lastname}
+            <div>是否区分大小写:{isUpperCaseFirstWord}</div>
+            <button onClick = {()=>{setConfig(true)}} >设置转换首字母大写</button>
+        </div>)
+    }
+
+
+    ReactDOM.render(
+        <ParentComponent/>,
+        document.getElementById('app')
+    );
 </script>
 
 </body>

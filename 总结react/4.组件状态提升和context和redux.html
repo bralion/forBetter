@@ -5,6 +5,51 @@
     <title>Title</title>
 </head>
 <body>
-
+<div id = "app"></div>
+<script crossorigin src="./react.development.js"></script>
+<script crossorigin src="./react-dom.development.js"></script>
+<script crossorigin src="./babel.min.js"></script>
+<script type = 'text/babel'>
+    const {useState,useEffect,useMemo,useCallback,useRef} = React;
+    // class MyComponent extends React.Component{
+    //     constructor(props){
+    //         super(props);
+    //         this.state={
+    //             count:0
+    //         }
+    //     }
+    //     componentDidMount() {
+    //        // /* this.setState(()=>({count: this.state.count + 1}));
+    //        //  console.log('# this.state', this.state);*/
+    //       // document.querySelector('#btn-raw').addEventListener('click', this.onClick.bind(this));
+    //     }
+    //
+    //     render() {
+    //         console.log('#enter render');
+    //         return ( <div> <div>{this.state.count} <button id="btn-raw" onClick={this.onClick.bind(this)}>Increment Raw</button> </div> </div> )
+    //     }
+    // }
+    function MyComponent(){
+        const  [count,setCount] = useState(0);
+        function onClick(e) {
+            setCount((count)=>count + 1);
+            setCount((count)=>count + 1);
+            setCount((count)=>count + 1);
+            console.log(e);
+        }
+        return (
+            <div>
+                <div>{count} <button id="btn-raw" onClick={onClick}>Increment Raw</button> </div>
+                <div>{count} <button id="btn-raw" onClick={onClick}>Increment Raw</button> </div>
+            </div>
+        )
+    }
+    ReactDOM.render(
+        <div>
+            <MyComponent/>
+        </div>,
+        document.getElementById('app')
+    )
+</script>
 </body>
 </html>
