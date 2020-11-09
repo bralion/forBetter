@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id ="app"></div>
+<div id ="app1"></div>
+<div id ="app2"></div>
+<div id ="app3"></div>
+<script crossorigin src="./vue.js"></script>
+<script crossorigin src="./babel.min.js"></script>
+<script type = 'text/babel'>
+    //Vue.directive 注册或获取全局指令。
+    Vue.directive('my-directive', { //在添加指令的元素末尾加上绑定的字符
+        bind: function (el,binding,vnode,oldNode) {
+            console.log(el);
+            console.log(binding);//包含value
+            console.log(vnode);
+            console.log(oldNode);
+        },
+        inserted: function (el,binding,vnode,oldNode) {
+            el.innerHTML = el.innerHTML + binding.value;
+        },
+        update: function () {},
+        componentUpdated: function () {},
+        unbind: function () {}
+    });
+    let YclComponent = Vue.component('YclComponent',{
+        template:`<div>自定义组件</div>`,
+    })
+
+    console.dir(YclComponent)
+    //变量  点击事件
+	new Vue({
+        el: "#app",
+        template: `
+            <div>
+                <div>{{a|yclFilter}}</div>
+                <div>{{aPlus}}</div>
+                <div>{{name}}</div>
+                <ycl-component></ycl-component>
+                <div v-ycl="111"></div>
+                <div @click="click">click me设置计算属性aPlus 利用set函数反向更新依赖 a</div>
+            </div>
+         `,
+
+        //props可以是数组或者对象   props: ['size', 'myMessage']
+        //props可以是对象
+        // {
+        //     age: {
+        //         type: Number,
+        //         default: 0,
+        //         required: true,
+        //         validator: function (value) {
+        //             return value >= 0
+        //         }
+        //     }
+        // }
+        props: ['a'],
+
+        //propsData
+        // 创建实例时传递 props。主要作用是方便测试。 模拟父组件传递参数
+        propsData:{
+            userName:'ycl',
+            a:1
+        },
+
+        computed: {
+            // 仅读取--常用
+            aDouble: function () {
+                return this.a * 2
+            },
+            // 读取和设置-----很少用    相当于反向设置回去
+            aPlus: {
+                get: function () {
+                    return this.a + 1
+                },
+                set: function (v) {
+                    this.a = v - 1
+                }
+            }
+        },
+
+        //watch 监听a发生变化执行函数
+        watch: {
+            a: function (val, oldVal) {
+                console.log('new: %s, old: %s', val, oldVal)
+            },
+        },
+        // directives filters components 必须是对象
+        directives:{
+            'ycl': {
+                bind: function (el,binding,vnode,oldNode) {
+                    console.log(el);
+                    el.innerHTML = '自定义组件添加的内容'
+                    console.log(binding);//包含value
+                    console.log(vnode);
+                    console.log(oldNode);
+                },
+            }
+        },
+        filters:{
+            'yclFilter': function (value) {
+                // 返回处理后的值
+                return value +'元'
+            }
+        },
+        //TODO 总结component和Vue实例的区别
+        components:{YclComponent},
+
+        // parent:{},//Vue instance 本组件将被推送到父实例的$children中
+        mixins:[{//mixin中的钩子先于组建的钩子执行
+            created: function () { console.log(1) }
+        }],
+
+        // extends: CompA, 继承于另外一个组件
+
+
+
+        //data在组件复用的时候避免实例修改同一个引用对象 所以data为函数
+		data(){return{name:"ycl"}},
+
+        mounted(){
+            console.dir(this);
+            console.log(this.$parent,'父组件'); //很少用
+            console.log(this.$children,'子组件'); //很少用
+        },
+
+        methods:{
+			click(){
+                [1,2,3].map(item=>{
+                	console.log(item);
+                });
+                this.aPlus = 5;  //computed属性的setter
+            },
+        },
+
+	})
+
+</script>
+</body>
+</html>
