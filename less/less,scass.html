@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>less/scss</title>
+    <link rel="stylesheet/less" type="text/css" href="./styles.less">
+    <!-- set options before less.js script -->
+    <script>
+        less = {
+            env: "development",
+            async: false,
+            fileAsync: false,
+            poll: 1000,
+            functions: {},
+            dumpLineNumbers: "comments",
+            relativeUrls: false,
+            rootpath: ":/a.com/"
+        };
+    </script>
+    <script src="./less.js"></script>
+    <script>
+        console.log(less);
+        less.watch()
+    </script>
+
+</head>
+<body>
+
+<!--变量的使用-->
+<div id="id1">
+    asdada
+    <span>corlor</span>
+</div>
+
+<!--混入的使用 和嵌套的使用-->
+<div id="id2">
+    <div>
+        mixin
+    </div>
+</div>
+
+</body>
+</html>

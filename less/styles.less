@@ -1,0 +1,64 @@
+//变量的定义
+@width: 100px;
+@height: @width + 10px;
+//变量的使用
+#id1{
+  width: @width;
+  height:@height;
+  color:red;
+  span{
+    color:green;
+  }
+}
+
+
+//混入的定义
+.bordered{
+  border:1px solid #080890;
+}
+#id2{
+  color:red;
+  .bordered();
+  &::after{
+    content:'嵌套伪类元素'
+  }
+}
+
+//算术运算符 +、-、*、/ 可以对任何数字、颜色或变量进行运算
+// 所有操作数被转换成相同的单位
+@conversion-1: 5cm + 10mm; // 结果是 6cm
+@conversion-2: 2 - 3cm - 5mm; // 结果是 -1.5cm ----计算的结果以最左侧操作数的单位类型为准
+
+// conversion is impossible
+@incompatible-units: 2 + 5px - 3cm; // 结果是 4px
+
+// example with variables
+@base: 5%;
+@filler: @base * 2; // 结果是 10%
+@other: @base + @filler; // 结果是 15%
+
+@color: #224488 / 2; //结果是 #112244
+@var: 50vh/2;
+
+div{
+  width: calc(50% + (@var - 20px));  // 结果是 calc(50% + (25vh - 20px))
+  background-color: #112244 + #111; // 结果是 #223355
+}
+
+
+//转译 ~ 后面的字符串编译会按照原样输出
+@min768: ~"(min-width: 768px)";
+.element {
+  @media @min768 {
+    font-size: 1.2rem;
+  }
+}
+//编译为
+@media (min-width: 768px) {
+  .element {
+    font-size: 1.2rem;
+  }
+}
+//Function less内部定义了许多的函数 -----https://less.bootcss.com/functions/#less-%E5%87%BD%E6%95%B0
+
+
