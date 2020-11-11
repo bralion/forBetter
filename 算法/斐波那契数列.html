@@ -6,6 +6,7 @@
 </head>
 <body>
 <script>
+    //方法1
     function createArray(n){
         let result = [];
         for (let i=0;i<n;i++){
@@ -17,7 +18,23 @@
         }
         return result
     }
+    // 方法2
+    function fn(n){
+        if(n==1||n==2){
+            return 1
+        }else{
+            return fn(n-1)+fn(n-2)
+        }
+    }
+    function createArray1(n){
+        return new Array(8).fill(0).map((item,index)=>{
+            return fn(index+1);
+        })
+    }
+
     console.log(createArray(8))
+    console.log(createArray1(8))
+
 
 </script>
 </body>
