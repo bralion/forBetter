@@ -69,3 +69,167 @@ var isPalindrome = function(x) {
 // X 可以放在 L (50) 和 C (100) 的左边，来表示 40 和 90。
 // C 可以放在 D (500) 和 M (1000) 的左边，来表示 400 和 900。
 // 给定一个罗马数字，将其转换成整数。输入确保在 1 到 3999 的范围内。
+function romanToInt(s){
+	let mapping = {
+		'I':1,'V':5,'X':10,'L':50,'C':100,'D':500,'M':1000
+	};
+	let res = 0;
+	for(let i=0;i<s.length;i++){
+		if(s[i+1]&&mapping[s[i]]<mapping[s[i+1]]){
+			res -= mapping[s[i]]
+		}else{
+			res += mapping[s[i]]
+		}
+	}
+	return res
+}
+// console.log(romanToInt('III'));
+
+
+// 5.编写一个函数来查找字符串数组中的最长公共前缀。
+//
+// 如果不存在公共前缀，返回空字符串 ""。
+/**
+ * @param {string[]} strs
+ * @return {string}
+ */
+/**
+ * @param {string[]} strs
+ * @return {string}
+ */
+var longestCommonPrefix = function(strs) {
+	if(!strs[0]){
+		return ''
+	}
+	let minLength = strs[0].length;
+	strs.forEach(item=>{
+		minLength>item.length&&(minLength = item.length);
+	});
+	let res = ''
+	for(let i = 0;i<minLength;i++){
+		let _currentStr = strs[0][i];
+		let isContinue = strs.every(item=>{
+			return _currentStr === item[i]
+		})
+		if(isContinue){
+			res +=_currentStr
+		}else{
+			break
+		}
+	}
+	return res
+};
+// console.log(longestCommonPrefix(['flow','flo2','floww']));
+
+// 6.给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串，判断字符串是否有效。
+//
+// 有效字符串需满足：
+//
+// 左括号必须用相同类型的右括号闭合。
+// 左括号必须以正确的顺序闭合。
+// 注意空字符串可被认为是有效字符串。
+
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+//利用栈的思想
+
+var isValid = function(s) {
+	let stringList = s.split('');
+	let stack = [];
+	let mapping ={
+		'{':'}',
+		'[':']',
+		'(':')',
+	}
+	for(let i =0;i<stringList.length;i++){
+		if(stack[stack.length-1]&&mapping[stack[stack.length-1]]===stringList[i]){
+			stack.pop();
+		}else{
+			stack.push(stringList[i]);
+		}
+	}
+	return stack.length === 0
+
+};
+// console.log(isValid("()[]{}"));
+
+// 7.将两个升序链表合并为一个新的 升序 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。
+//
+// 示例：
+//
+// 输入：1->2->4, 1->3->4
+// 输出：1->1->2->3->4->4
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} l1
+ * @param {ListNode} l2
+ * @return {ListNode}
+ */
+//链表结构
+function ListNode(val,next){
+    this.val = (val===undefined ? 0 : val)
+    this.next = (next===undefined ? null : next)
+}
+var l1 = {
+    val:'1',
+    next:{
+        val:'2',
+        next:{
+             val:'4',
+             next:null
+        }
+    }
+}
+var l2 = {
+    val:'1',
+    next:{
+        val:'3',
+        next:{
+             val:'4',
+             next:null
+        }
+    }
+}
+var mergeTwoLists = function(l1, l2) {
+    let cur = new ListNode();
+    let head = cur;
+    while(l1&&l2) {
+        if(l1.val <= l2.val){
+            cur.next = l1 ;
+            l1 = l1.next
+        }else{
+            cur.next = l2 ;
+            l2 = l2.next
+        }
+        cur = cur.next
+    }
+    if (!l1) cur.next = l2;
+    if (!l2) cur.next = l1;
+    return head.next;
+};
+// console.log(JSON.stringify(mergeTwoLists(l1,l2)));
+
+// 8.删除排序数组中的重复项
+// 给定一个排序数组，你需要在 原地 删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。
+//
+// 不要使用额外的数组空间，你必须在 原地 修改输入数组 并在使用 O(1) 额外空间的条件下完成。
+//
+//
+// 示例1:
+//
+// 给定数组 nums = [1,1,2],
+//
+// 函数应该返回新的长度 2, 并且原数组 nums 的前两个元素被修改为 1, 2。
+//
+// 你不需要考虑数组中超出新长度后面的元素。
+
+
+
