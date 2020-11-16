@@ -230,6 +230,53 @@ var mergeTwoLists = function(l1, l2) {
 // 函数应该返回新的长度 2, 并且原数组 nums 的前两个元素被修改为 1, 2。
 //
 // 你不需要考虑数组中超出新长度后面的元素。
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+// 思路：双指针移动
+var removeDuplicates = function(nums) {
+	let i = 0;//慢指针
+	if(nums.length<2){return i+1}
+	for(let j = 1;j<nums.length;j++){
+		if(nums[i]!==nums[j]){//如果相等就跳过  不相等就把第j位赋值给第i+1位
+			nums[i+1] = nums[j];
+			i++;
+		}
+	}
+	return i+1
+};
+// console.log(removeDuplicates([1,1,2]))
 
 
+//9.给你一个数组 nums 和一个值 val，你需要 原地 移除所有数值等于 val 的元素，并返回移除后数组的新长度。
+//
+// 不要使用额外的数组空间，你必须仅使用 O(1) 额外空间并 原地 修改输入数组。
+//
+// 元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。
+
+// 给定 nums = [3,2,2,3], val = 3,
+
+/**
+ * @param {number[]} nums
+ * @param {number} val
+ * @return {number}
+ */
+// 思路1---循环找到就删除  直到找不到为止
+// 思路2---双指针 对比慢指针和快指针是否相等 不相等则将快指针赋值给慢指针 同时慢指针加1
+var removeElement = function(nums, val) {
+	let isContinue = true;
+	while(isContinue){
+		let _index = nums.findIndex((item,index)=>{
+			return item === val
+		});
+		if(_index!==-1){
+			nums.splice(_index,1)
+		}else{
+			isContinue = false;
+		}
+	}
+
+	return nums.length
+};
 
