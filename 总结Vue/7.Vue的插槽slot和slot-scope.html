@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id ="app"></div>
+<script crossorigin src="./vue.js"></script>
+<script crossorigin src="./babel.min.js"></script>
+<script type = 'text/babel'>
+   Vue.component('ChildComponent',{
+        template:`<div>
+            <slot :childName="name":age="age" :clickFun="click" ></slot>
+        </div>`,
+        data:function () {
+            return {name:"childName",age:18}
+        },
+        methods:{
+            click(){
+                console.log('子组件点击事件触发')
+            }
+        }
+    })
+
+
+    //变量  点击事件
+   new Vue({
+        el:"#app",
+        template:`<div @click="click">
+                <child-component>
+                    <div slot-scope="parentData" >
+                        我是父组件传给slot的内容
+                        <div v-for="item in list" @click.stop="parentData.clickFun">{{item}}</div>
+                        <div>{{parentData.childName}}</div>
+                        <div>{{parentData.age}}</div>
+                    </div>
+                </child-component>
+            </div>`,
+		data(){
+            return {list:[1,2,3]}
+        },
+        methods:{
+			click(){
+                console.log('父元素点击事件触发')
+			}
+        }
+   })
+    // 总结：slot为子组件将内部的一部分区域交给 调用自己的父组件 去渲染，注意该区域的作用域和方法都在父组件的作用域下。如果想该区域的数据被自己控制，
+    // 可以通过在父组件中的标签中加上slot-scope属性来接收子组件传过来的数据，方法也可以，但是因为数据流向问题不建议
+</script>
+</body>
+</html>

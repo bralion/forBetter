@@ -16,6 +16,7 @@ module.exports = {
         filename: 'index.js'
     },
 
+
     module: {
         rules: [
             {
@@ -43,8 +44,17 @@ module.exports = {
                     {
                         loader: 'css-loader'
                     }
+                ],
+            },
+            {
+                test: /\.less$/,
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    'less-loader'
                 ]
             }
+
         ]
     },
 
@@ -76,7 +86,7 @@ module.exports = {
 			        });
 		        });
 	        });
-	
+
 	        app.get('/price', function (req, res) {
 		        res.send(JSON.stringify({
 			        infos: [
