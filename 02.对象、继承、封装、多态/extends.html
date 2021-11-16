@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+class Person{
+    constructor(name) {
+        this.name = name;
+    }
+    speak(){
+        console.log('my name is '+this.name)
+    }
+}
+
+class Chinese extends Person{
+    constructor(name) {
+        super(name);
+        super.speak();
+        this.isChinese = true;
+    }
+    speak(){
+        console.log('我的名字是' + this.name)
+    }
+    static isType(){
+        console.log('执行了isType')
+        return 'Chinese'
+    }
+}
+var yangchaolin = new Chinese('杨超林');
+console.log(yangchaolin)
+yangchaolin.speak();
+Chinese.isType()
+let app = {
+    name:'obj',
+    speak(){console.log('1111')},
+    deepObj:{name:'2222'}
+}
+let app1 = Object.assign({},app);
+console.log(app1)
+console.log(app1 === app)
+console.log(app1.speak === app.speak)
+</script>
+</body>
+</html>

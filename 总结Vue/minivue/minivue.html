@@ -9,9 +9,15 @@
 <script type="module">
     import Vue from './minivue.js'
     let vueInstance = new Vue({
-        el:'#root',
+        //el:'#root',//由于module模式 模块内无法获取全局变量window 所以 el改为传dom
+        el:document.getElementById('root')
+    });
+    let vueInstance1 = new Vue({
+        //el:'#root',//由于module模式 模块内无法获取全局变量window 所以 el改为传dom
+        el:document.getElementById('root')
     });
     console.log(vueInstance,'1111')
+    console.log(vueInstance1,'2222')
     console.log(Vue.config,'2222')
 </script>
 </body>
