@@ -16,26 +16,23 @@
     function ParentComponent (){
         const [firstname,setFirstname] = useState('chaolin')
         const [lastname,setLastname] = useState('yang')
+        const [birthYear,setBirthYear] = useState('1994')
+        const age = parseInt(new Date().getFullYear() - birthYear);
+        useEffect(()=>{})
+        console.log(age);
+        function setBirthYear2020(){
+            setBirthYear('2020')
+        }
         return(
             <div>
-               <Name firstname={firstname} setFirstname={setFirstname} setLastname={setLastname} lastname={lastname} />
+                <span>{age}</span>
+                <span>{birthYear}</span>
+                {Name({firstname,setFirstname,setBirthYear,setBirthYear2020,setLastname,lastname})}
             </div>
         )
     }
     function Name (props){
-        let [isUpperCaseFirstWord,setConfig]= useState(false);
-        useEffect(()=>{
-                isUpperCaseFirstWord = isUpperCaseFirstWord;
-                if(isUpperCaseFirstWord){
-                    props.setLastname('Yang')
-                    props.setFirstname('Chaolin')
-                }
-        },[isUpperCaseFirstWord])
-        return (<div>
-            {'name:' + props.firstname + ' ' + props.lastname}
-            <div>是否区分大小写:{isUpperCaseFirstWord}</div>
-            <button onClick = {()=>{setConfig(true)}} >设置转换首字母大写</button>
-        </div>)
+        return (<div onClick={props.setBirthYear2020}>点我</div>)
     }
 
 
