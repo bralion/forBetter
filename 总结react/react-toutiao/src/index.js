@@ -8,7 +8,7 @@ import ReactDOM from 'react-dom';
 import List from './list';
 import Tab from './tab';
 import * as components from './components/items';
-import TabContext from './tab-context';
+import TabContexta from './tab-context';
 
 const TABS = [
 	{

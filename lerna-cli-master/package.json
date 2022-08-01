@@ -1,0 +1,79 @@
+{
+  "name": "root",
+  "private": true,
+  "scripts": {
+    "commit": "git-cz",
+    "test": "FORCE_COLOR=true lerna run lint && CI=true FORCE_COLOR=true lerna run test -- --coverage",
+    "deploy": "FORCE_COLOR=true lerna run deploy",
+    "clear-all": "rimraf node_modules && lerna clean -y",
+    "start:app-ant-design": "yarn workspace @project/app-ant-design-rewired start",
+    "start:app-multi": "yarn workspace @project/app-multi-comps start",
+    "start:app-single": "yarn workspace @project/app-single-comp start",
+    "start:app-ts": "yarn workspace @project/app-typescript start",
+    "start:storybook": "yarn workspace @project/storybook storybook",
+    "start:storybook-ts": "yarn workspace @project/storybook-typescript storybook"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/apps/*",
+      "packages/components",
+      "packages/components-typescript",
+      "packages/storybook",
+      "packages/storybook-typescript"
+    ],
+    "nohoist": [
+      "packages/apps/**/webpack-dev-server",
+      "**/babel-loader",
+      "**/babel-jest"
+    ]
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.0.3",
+    "@commitlint/config-conventional": "^17.0.3",
+    "@typescript-eslint/eslint-plugin": "^2.15.0",
+    "@typescript-eslint/parser": "^2.15.0",
+    "babel-eslint": "10.0.3",
+    "commitizen": "^4.2.5",
+    "cz-lerna-changelog": "^2.0.3",
+    "eslint": "6.8.0",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-config-react-app": "^5.1.0",
+    "eslint-plugin-flowtype": "^4.5.3",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.17.0",
+    "eslint-plugin-react-hooks": "^2.3.0",
+    "husky": "^8.0.1",
+    "jest-prop-type-error": "^1.1.0",
+    "lerna": "^3.20.2",
+    "lint-staged": "^13.0.3",
+    "prettier": "^1.19.1",
+    "standard": "^17.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-lerna-changelog"
+    }
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/setupTests.{js,jsx,ts,tsx}",
+      "!src/index.{js,jsx,ts,tsx}",
+      "!src/serviceWorker.{js,jsx,ts,tsx}",
+      "!src/**/*.(spec|test|stories).{js,jsx,ts,tsx}"
+    ]
+  }
+}

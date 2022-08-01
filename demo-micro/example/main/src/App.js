@@ -9,6 +9,7 @@ function App() {
       <div className="router">
         <Router>
           <div>
+              <span style={{color:'#ffff'}}>微前端框架</span>
             <nav>
               <ul>
                 <li className="sub-meanu">

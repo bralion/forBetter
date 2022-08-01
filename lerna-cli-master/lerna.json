@@ -1,0 +1,25 @@
+{
+  "packages": [
+    "packages/*/*"
+  ],
+  "version": "independent",
+  "useNx": true,
+  "useWorkspaces": true,
+  "npmClient": "yarn",
+  "command": {
+    "run": {
+      "npmClient": "yarn"
+    },
+    "publish": {
+      "ignoreChanges": [
+        "ignored-file",
+        "*.md",
+        "files"
+      ],
+      "message": "chore(release): publish"
+    },
+    "version": {
+      "conventionalCommits": true
+    }
+  }
+}
