@@ -305,7 +305,7 @@ var Main = /*#__PURE__*/function (_Component) {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "container"
+        className: "container1"
       }, "\u6211\u662F\u4E3B\u7EC4\u4EF6");
     }
   }, {

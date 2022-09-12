@@ -44,7 +44,7 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             filename: "html/index.html",
-            template: "./index.html",
+            template: "./html/index.html",
             hash: true,
             minify: {
                 removeEmptyAttributes: false

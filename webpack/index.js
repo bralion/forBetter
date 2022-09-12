@@ -30,7 +30,7 @@ class Main extends Component {
     }
 
     render() {
-        return (<div className="container">
+        return (<div className="container1">
           我是主组件
         </div>);
     }
