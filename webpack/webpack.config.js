@@ -1,7 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-
+    mode: 'development',
     entry: __dirname + '/index.js',
     devtool: "source-map",
     optimization:{

@@ -6,6 +6,12 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 
+class Test extends Component {
+
+    constructor(props) {
+        super(props);
+    }
+}
 class Main extends Component {
 
     constructor(props) {
@@ -31,7 +37,8 @@ class Main extends Component {
 
     render() {
         return (<div className="container1">
-          我是主组件
+            {'我是主组件'}
+            <Test></Test>
         </div>);
     }
 
