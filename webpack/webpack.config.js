@@ -1,11 +1,12 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const path = require('path');
-const fs = require('fs');
 
 module.exports = {
 
-    entry: __dirname + '/src/index.js',
-
+    entry: __dirname + '/index.js',
+    devtool: "source-map",
+    optimization:{
+        minimize: false // 关闭代码压缩，可选
+    },
     output: {
         path: __dirname + '/dist/',
         filename: 'index.js'
@@ -43,30 +44,11 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             filename: "html/index.html",
-            template: "./html/index.html",
+            template: "./index.html",
             hash: true,
             minify: {
                 removeEmptyAttributes: false
             }
         })
-    ],
-
-    devServer: {
-        contentBase: path.join(__dirname, 'dist'),
-        compress: true,
-        host: 'localhost',
-        port: 9000,
-        disableHostCheck: true,
-        before: function (app, server) {
-            app.get('/list', function (req, res) {
-                const fileName = `./mock/list_${req.query.tab}.json`;
-                const backupFileName = `./mock/list.json`;
-                fs.exists(fileName, function (exists) {
-                    fs.readFile(exists ? fileName : backupFileName, function (err, content) {
-                        res.send(content);
-                    });
-                });
-            });
-        }
-    }
+    ]
 };

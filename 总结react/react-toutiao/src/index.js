@@ -59,7 +59,7 @@ class Main extends Component {
 	}
 
 	getList() {
-		return fetch('http://yuanxin.taobao.com:9000/list')
+		return fetch('http://localhost:8099/list')
 			.then(res => res.json());
 	}
 
