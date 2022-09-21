@@ -1,0 +1,11 @@
+mock数据的方法
+将路由写在mock.json 中  key为path value 为返回数据
+eg：
+{
+  "/mock/pm/list": {"code":200,"message":"请求成功","errorMsg":null,"data":[]}
+}
+
+
+启动mock服务器方法 不需要安装 直接运行
+ npm start
+
