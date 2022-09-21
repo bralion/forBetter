@@ -8,7 +8,8 @@
   },
   "dependencies": {
     "module_a": "^1.0.0",
-    "module_d": "^1.0.0"
+    "module_d": "^1.0.0",
+    "module_e": "^1.0.0"
   },
   "author": "ycl",
   "license": "ISC"
