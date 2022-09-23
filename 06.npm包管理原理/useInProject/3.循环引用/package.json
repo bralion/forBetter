@@ -1,5 +1,5 @@
 {
-  "name": "module_e",
+  "name": "module_b",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,8 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "module_d": "^1.0.0"
+    "module_a": "^1.0.0",
+    "module_d": "^1.0.0",
+    "module_e": "^1.0.0"
   },
-  "author": "",
+  "author": "ycl",
   "license": "ISC"
 }
