@@ -1,13 +1,13 @@
 {
   "name": "module_e",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "module_d": "^1.0.0"
+    "module_a": "^1.0.0"
   },
   "author": "",
   "license": "ISC"
