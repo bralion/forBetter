@@ -28,7 +28,7 @@ export default class Gantt extends Component {
         // ];
 
         gantt.i18n.setLocale("cn");
-        gantt.config.drag_mode = "ignore";
+        // gantt.config.drag_mode = "ignore";
         gantt.config.date_format = "%Y/%m/%d"
         gantt.templates.task_text=function(start,end,task){
             return task.title+",<b> 负责人:</b> "+task.user.name;
