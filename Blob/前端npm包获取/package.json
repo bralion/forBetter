@@ -1,0 +1,12 @@
+{
+  "name": "getNpmNexus",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "rm -rf ./res/ &&rm -rf ./temp && rm -rf ./res.zip && mkdir temp && cd temp && cp ../old.json ./package.json && npm uninstall @topology/layout --save && npm i && cp ./package-lock.json ../lock.json && cd ../ && node index && zip -r res.zip res "
+  },
+  "dependencies": {
+    "download": "^8.0.0"
+  },
+  "devDependencies": {}
+}
+
