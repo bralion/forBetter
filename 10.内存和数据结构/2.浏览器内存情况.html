@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    let nexus1 = 23424
+    function normal1111(){
+        let ycl = 'normal111'
+        console.log(ycl)
+        return {name:'ycl',age:11}
+    }
+    function normal22222(){
+        let ycl = 'bestPerson'
+        return {
+            getName:function (){
+              return ycl
+            },
+            addName:function(){
+              ycl = ycl+1
+            }
+        }
+    }
+    normal1111()
+    let normal333 = normal22222();
+    console.log(normal333.getName());
+    console.log(normal333.addName());
+    console.log(normal333.getName());
+
+
+</script>
+
+</body>
+</html>

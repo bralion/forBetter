@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hocks使用</title>
+</head>
+<body>
+<div id = "app"></div>
+<script crossorigin src="./react.development.js"></script>
+<script crossorigin src="./react-dom.development.js"></script>
+<script crossorigin src="./babel.min.js"></script>
+<script type = 'text/babel'>
+  const {useState,useEffect,useMemo,useCallback,useRef} = React;
+  //子组件-----用于重现未使用useCallback存在的问题
+  function Component2(props){
+    console.log(props,'props改变子组件2渲染');
+    let onchange = props.onchange;
+    let value = props.val;
+    return (
+      <div>
+        <input onChange = {onchange} value = {value}></input>
+        <div>{Math.random()*12}</div>
+      </div>
+    )
+  }
+  //子组件-------用于 解决 未使用useCallback存在的问题
+
+  function Component3(props){
+    console.log(props,'props改变子组件3渲染');
+    return (
+      <div>
+        <input onChange = {props.onchange} value = {props.val}></input>
+        <div>{Math.random()*12}</div>
+      </div>
+    )
+  }
+
+  //
+  // class Component3 extends React.Component{
+  //     constructor(props){
+  //         super(props)
+  //     }
+  //     shouldComponentUpdate(nextProps,nexState){
+  //         if(this.props.onchange === nextProps.onchange){
+  //             return false
+  //         }
+  //         return true
+  //     }
+  //     render(){
+  //         console.log(this.props,'props改变子组件3渲染');
+  //         let onchangeHandled = this.props.onchange;
+  //         let value = this.props.val;
+  //         return (
+  //             <div>
+  //                 <input onChange = {onchangeHandled} value = {value}></input>
+  //                 <div>{Math.random()*12}</div>
+  //             </div>
+  //
+  //         )
+  //     }
+  // }
+
+  /****  hooks ****/
+  //注意事项：Hook 需要在我们组件的最顶层调用。并且不能在条件语句内使用hook(内部通过调用的顺序来确定hooks对应的状态)。
+  function Component1(){
+
+    //useState
+    const [userName,setUserName] = useState('ycl');
+
+    /****  useEffect ****/
+    //依赖为空，每次渲染执行一次
+    useEffect(() =>{
+      console.log('组件每次渲染执行一次');
+    },[]);
+    //依赖为[]，组件加载完成执行一次
+    useEffect(() =>{
+      console.log('组件加载完成执行一次');
+    },[]);
+    //依赖为[userName]，userName改变执行
+    useEffect(() =>{
+      console.log('组件name改变为：' + userName);
+      return ()=>{
+        //清除相关操作
+      }
+    },[userName]);
+
+
+    /****  useMemo ****/
+    //两者的对比，useMemo缓存的是一个值，useCallback缓存的是一个函数，是对一个单独的props值进行缓存  返回值不同
+    //memo缓存的是组件本身，是站在全局的角度进行优化
+
+    function nameFirstWord (name){
+      console.log('函数放到jsx中每次渲染都要执行')
+      return name.slice(0,1);
+    }
+    const memoFirstNameWord = useMemo(//不要在这个函数内部执行与渲染无关的操作---useMemo主要为了性能优化
+      ()=>nameFirstWord(name),
+      [name]
+    );
+
+    /****  useCallback ****/
+      //当点击父组件外面按钮设置名称时 本来与子组件无关 但是子组件却因为onchange函数引用发生改变而重新渲染了
+    const [childVal,setChildVal] = useState('')
+    function onchange (val){
+      console.log('子组件触发修改'+val.target.value)
+      setChildVal(val.target.value);
+    }
+    //以下为使用useCallback来解决这个问题
+    const [childVal1,setChildVal1] = useState('')
+    function onchange1(val){
+      console.log('子组件触发修改'+val.target.value)
+      setChildVal1(val.target.value);
+    }
+    const onchangeHandled = useCallback(onchange1,[])
+
+    //验证是否缓存成功
+    if(window.onchange){
+      console.log(window.onchange === onchange,'onchange函数是否改变');
+    }else{
+      window.onchange = onchange
+    }
+    if(window.onchangeHandled){
+      console.log(window.onchangeHandled === onchangeHandled,'onchange函数是否改变')
+    }else{
+      window.onchangeHandled = onchangeHandled
+    }
+
+
+    /****  useRef ****/
+      //注意在挂载之后才去获取
+    const inputRef = useRef('input');
+    useEffect(()=>{
+      console.dir(inputRef.current);
+      inputRef.current.focus();
+    },[])
+
+
+
+
+    return (
+      <div>
+        NAME:{userName}
+        <button onClick = {()=>{setUserName(userName+1)}}>设置名称</button> 效能度量
+        {nameFirstWord(userName)}
+        {memoFirstNameWord}
+        <br/>
+        <p></p>
+        子组件未使用useCallback：
+        <Component2 onchange={onchange}  val={childVal}/>
+        <br/>
+        子组件已使用useCallback：
+        <Component3 onchange = {onchangeHandled} val={childVal1}/>
+
+
+        <input ref = {inputRef} type="text" onChange={()=>{}} value = {userName}/>
+      </div>
+    )
+  }
+
+  ReactDOM.render(
+    <Component1/>,
+    document.getElementById('app')
+  );
+</script>
+</body>
+</html>

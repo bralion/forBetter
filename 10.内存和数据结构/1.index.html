@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+  function aaa (){
+      let a = 1;
+      function main(){
+        let var1 = 2
+         let add =  function (){
+          console.log(var1+1)
+          return var1++
+        }
+        return add
+      }
+      let coulrse = main()
+      setInterval(coulrse,2000)
+    }
+    aaa()
+</script>
+
+</body>
+</html>

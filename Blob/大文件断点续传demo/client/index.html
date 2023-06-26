@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>大文件分片断点上传</title>
+</head>
+<style>
+   #dropzone{
+        width:100px;
+        height: 100px;
+       background: #999;
+    }
+</style>
+<link
+        rel="stylesheet"
+        href="https://unpkg.com/dropzone@5.9.3/dist/min/dropzone.min.css"
+        type="text/css"
+/>
+<body>
+<script  src="https://unpkg.com/dropzone@5.9.3/dist/min/dropzone.min.js"></script>
+<div id="dropzone"> 点击上传</div>
+<script>
+  setTimeout(()=>{
+    console.log(Dropzone,111)
+    const dropzone = new Dropzone('#dropzone', {
+      url: "http://127.0.0.1:3000/upload", // 上传文件的URL
+      maxFilesize: 500, // 最大文件大小（以MB为单位）
+      chunking: true, // 启用分片上传
+      chunkSize: 20000, // 分片大小（以MB为单位）
+      parallelChunkUploads: true, // 启用并行分片上传
+      retryChunks: true, // 允许重试上传失败的分片
+      retryChunksLimit: 3, // 重试上传失败的分片的次数限制
+      init: function() {
+        // 初始化回调函数
+        console.log('初始化')
+        this.on("complete", function(file) {
+          console.log('上传完成')
+          // 上传完成后的回调函数
+          // 可以在这里进行相应的操作，如显示上传成功消息等
+        });
+      },
+      addedfile: file => {
+        // ONLY DO THIS IF YOU KNOW WHAT YOU'RE DOING!
+        console.log('添加文件')
+      }
+    });
+  },2000)
+</script>
+
+</body>
+</html>
